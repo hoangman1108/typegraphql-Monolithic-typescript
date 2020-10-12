@@ -9,13 +9,19 @@ import { ObjectId } from 'mongodb';
 
 import { ObjectIdScalar } from './Scalars/ObjectIdScalars';
 import { UserResolver } from './Modules/User/user.resolver';
+import { EventResolver } from './Modules/Event/event.resolver';
 import { Playground } from './Playground';
+import { Context } from './App/Context';
+import { AuthenticationMiddleware } from './MiddleWares/authentication.middleware';
+import { ValidationMiddleware } from './MiddleWares/validate.middleware';
 
 import logger from './Log';
-import Database from './database/db';
+import Database from './Database/db';
 
 class Server {
   private App: express.Application;
+
+  private Port: Number;
 
   private Schema: any;
 
@@ -24,11 +30,13 @@ class Server {
   constructor() {
     this.App = express();
     this.Database = new Database();
+    this.Port = Number(process.env.GRAPHQL_PORT) || 3000;
   }
 
   async bootstrap() {
     const schema = await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [UserResolver, EventResolver],
+      globalMiddlewares: [AuthenticationMiddleware, ValidationMiddleware],
       scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
     });
 
@@ -59,17 +67,18 @@ class Server {
           context: {
             req: request,
             res: response,
+            ...Context,
           },
         })
       ));
-    logger.info('Create service GraphQL');
+    logger.info('Create GraphQL');
   }
 
   async Start() {
     await this.graphQl();
     new Playground().Init(this.App);
-    this.App.listen(3000, () => {
-      logger.info('GraphQL Server is now running on port 3000');
+    this.App.listen(this.Port, () => {
+      logger.info(`GraphQL Server is now running on port ${this.Port}`);
     });
   }
 }

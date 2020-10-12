@@ -1,5 +1,5 @@
-import { IUser, UserCollection } from '../models/user.model';
-import { UserInput } from '../Modules/User/type/user.input';
+import { IUser, UserCollection } from '../Models/user.model';
+import { UserIdInput, UserInput } from '../Modules/User/type/user.input';
 
 class UserService {
   async create(user: UserInput): Promise<IUser> {
@@ -10,6 +10,13 @@ class UserService {
   async list(): Promise<IUser[] | null> {
     const list: IUser[] = await UserCollection.find();
     return list;
+  }
+
+  async delete(id: UserIdInput): Promise<string> {
+    return UserCollection.deleteOne({ _id: id.id }).catch((error) => {
+      if (error) return 'DELETE_ERROR';
+      return 'DELETED_SUCCESS';
+    });
   }
 }
 
