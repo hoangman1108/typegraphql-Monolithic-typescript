@@ -5,7 +5,7 @@ import {
 import { Logger } from 'pino';
 import { Auth, AuthPayload } from './type/auth.type';
 import { LoginInput } from './type/auth.input';
-import AuthService from '../../Services/auth.service';
+import AuthService from '../../services/auth.service';
 @Resolver()
 export class AuthResolver {
   @Mutation(() => AuthPayload)

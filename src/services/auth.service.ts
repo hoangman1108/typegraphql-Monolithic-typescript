@@ -1,5 +1,5 @@
-import { AuthTokenCollection, IAuthToken } from '../Models/token.model';
-import { IUser, UserCollection } from '../Models/user.model';
+import { AuthTokenCollection, IAuthToken } from '../models/token.model';
+import { IUser, UserCollection } from '../models/user.model';
 import { LoginInput } from '../Modules/Auth/type/auth.input';
 import { Auth } from '../Modules/Auth/type/auth.type';
 import { AuthToken } from '../Modules/User/type/authToken.type';

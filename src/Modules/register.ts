@@ -1,5 +1,5 @@
-import UserHandler from '../Services/user.service';
-import AuthHandler from '../Services/auth.service';
+import UserHandler from '../services/user.service';
+import AuthHandler from '../services/auth.service';
 
 export default {
   services: {

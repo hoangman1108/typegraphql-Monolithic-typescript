@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import utils from './util';
-import logger from '../Log';
+import logger from '../App/Log';
 
 class Database {
   private connection: any;

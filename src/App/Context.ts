@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { Logger } from 'pino';
 import passport from 'passport';
-import logger from '../Log';
+import logger from './Log';
 import { IOptions } from '../type/passport';
-import { IUser } from '../Models/user.model';
+import { IUser } from '../models/user.model';
 import { User } from '../Modules/User/type/user.type';
 
 export interface IContext {

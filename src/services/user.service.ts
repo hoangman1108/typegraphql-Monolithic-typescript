@@ -1,4 +1,4 @@
-import { IUser, UserCollection } from '../Models/user.model';
+import { IUser, UserCollection } from '../models/user.model';
 import { UserIdInput, UserInput } from '../Modules/User/type/user.input';
 import { User } from '../Modules/User/type/user.type';
 

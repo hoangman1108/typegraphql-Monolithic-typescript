@@ -8,9 +8,9 @@ import {
   User, UserDelete, UserPayload, UserPayloads,
 } from './type/user.type';
 import { UserIdInput, UserInput } from './type/user.input';
-import { IUser } from '../../Models/user.model';
+import { IUser } from '../../models/user.model';
 import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
-import UserService from '../../Services/user.service';
+import UserService from '../../services/user.service';
 @Resolver()
 export class UserResolver {
   @Query(() => UserPayloads)

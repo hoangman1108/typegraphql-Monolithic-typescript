@@ -1,4 +1,4 @@
-import logger from '../Log';
+import logger from '../App/Log';
 
 require('dotenv').config();
 

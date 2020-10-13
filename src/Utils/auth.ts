@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { IUser } from '../Models/user.model';
+import { IUser } from '../models/user.model';
 
 const jwtConfig = {
   accessTokenSecret: process.env.JWT_ACCESSTOKEN_SECRET || 'secret',

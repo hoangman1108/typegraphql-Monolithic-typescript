@@ -10,7 +10,7 @@ export class Playground {
 
   async Tabs(endpoint: string) {
     const playgroundQueries = glob.sync(
-      path.resolve(__dirname, './**/playground.{ts,js}')
+      path.resolve(__dirname, '../**/playground.{ts,js}')
     );
     this.Tab = await reduce(
       playgroundQueries,

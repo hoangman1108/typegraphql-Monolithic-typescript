@@ -10,16 +10,16 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import { buildSchema } from 'type-graphql';
 import { ObjectId } from 'mongodb';
 
-import { ObjectIdScalar } from './Scalars/ObjectIdScalars';
+import { ObjectIdScalar } from '../Scalars/ObjectIdScalars';
 import { Playground } from './Playground';
-import { Context } from './App/Context';
-import { AuthenticationMiddleware } from './MiddleWares/authentication.middleware';
-import { ValidationMiddleware } from './MiddleWares/validate.middleware';
+import { Context } from './Context';
+import { AuthenticationMiddleware } from '../MiddleWares/authentication.middleware';
+import { ValidationMiddleware } from '../MiddleWares/validate.middleware';
 
-import ServiceRegistry from './Services/registry';
+import ServiceRegistry from '../services/registry';
 import logger from './Log';
-import Database from './Database/db';
-import Jwt from './App/JWT';
+import Database from '../database/db';
+import Jwt from './JWT';
 
 class Server {
   private App: express.Application;
@@ -42,7 +42,7 @@ class Server {
   async bootstrap() {
     const schema = await buildSchema({
       resolvers: [
-        path.resolve(__dirname, './Modules/**/*.resolver.{js,ts}'),
+        path.resolve(__dirname, '../Modules/**/*.resolver.{ts,js}'),
       ],
       globalMiddlewares: [AuthenticationMiddleware, ValidationMiddleware],
       scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
