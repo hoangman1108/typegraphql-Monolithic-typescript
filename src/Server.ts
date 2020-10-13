@@ -43,9 +43,6 @@ class Server {
     const schema = await buildSchema({
       resolvers: [
         path.resolve(__dirname, './Modules/**/*.resolver.{js,ts}'),
-        // UserResolver,
-        // EventResolver,
-        // AuthResolver,
       ],
       globalMiddlewares: [AuthenticationMiddleware, ValidationMiddleware],
       scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],

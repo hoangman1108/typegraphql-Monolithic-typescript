@@ -3,7 +3,6 @@ import { Logger } from 'pino';
 import passport from 'passport';
 import logger from '../Log';
 import { IOptions } from '../type/passport';
-// import { User } from '../Modules/User/type/user.type';
 import { IUser } from '../Models/user.model';
 import { User } from '../Modules/User/type/user.type';
 
