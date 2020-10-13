@@ -9,7 +9,7 @@ export type IAuthToken = mongoose.Document & {
 };
 
 const authTokenSchema = new mongoose.Schema({
-  user: { type: Schema.Types.ObjectId, ref: typeof UserCollection, required: true },
+  user: { type: Schema.Types.ObjectId, ref: UserCollection, required: true },
   accessToken: { type: String },
   refreshToken: { type: String },
   kind: { type: String },

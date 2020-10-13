@@ -1,21 +1,25 @@
 import * as yup from 'yup';
 import {
-  Arg, Extensions, Mutation, Query, Resolver,
+  Arg, Ctx, Extensions, Mutation, Query, Resolver,
 } from 'type-graphql';
+import { Logger } from 'pino';
+
 import {
   User, UserDelete, UserPayload, UserPayloads,
 } from './type/user.type';
 import { UserIdInput, UserInput } from './type/user.input';
-import userService from '../../services/user.service';
-import logger from '../../Log';
 import { IUser } from '../../Models/user.model';
 import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
+import UserService from '../../Services/user.service';
 @Resolver()
 export class UserResolver {
   @Query(() => UserPayloads)
-  async listUsers(): Promise<UserPayloads> {
+  @Extensions({
+    authenticate: true,
+  })
+  async listUsers(@Ctx() { userService, logger }: { userService: UserService; logger: Logger }): Promise<UserPayloads> {
     const list: IUser[] | null = await userService.list();
-    logger.info('UserMutation#create.check %o', list);
+    logger.info('UserQuery#list.check %o', list);
     let results: User[] | null = null;
     if (list) {
       results = list.map((user: IUser) => ({
@@ -53,7 +57,8 @@ export class UserResolver {
       }),
     }),
   })
-  async createUser(@Arg('data') data: UserInput): Promise<UserPayload> {
+  async createUser(@Arg('data') data: UserInput,
+    @Ctx() { userService, logger }: { userService: UserService; logger: Logger }): Promise<UserPayload> {
     const create: IUser = await userService.create(data);
     logger.info('UserMutation#create.check %o', create);
     const result: User = {
@@ -69,8 +74,11 @@ export class UserResolver {
   }
 
   @Mutation(() => UserDelete)
-  async userDelete(@Arg('data') id: UserIdInput): Promise<UserDelete> {
+  async userDelete(@Arg('data') id: UserIdInput,
+    @Ctx() { userService, logger }: { userService: UserService; logger: Logger })
+    : Promise<UserDelete> {
     const deleted: string = await userService.delete(id);
+    logger.info('UserMutation#delete.check1 %o', deleted);
     return {
       user: deleted,
       errors: null,

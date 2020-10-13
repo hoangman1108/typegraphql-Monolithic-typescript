@@ -1,14 +1,14 @@
 import * as yup from 'yup';
 import {
-  Arg, Extensions, Mutation, Resolver,
+  Arg, Ctx, Extensions, Mutation, Resolver,
 } from 'type-graphql';
-import { Auth } from './type/auth.type';
+import { Logger } from 'pino';
+import { Auth, AuthPayload } from './type/auth.type';
 import { LoginInput } from './type/auth.input';
-import AuthService from '../../services/auth.service';
-
+import AuthService from '../../Services/auth.service';
 @Resolver()
 export class AuthResolver {
-  @Mutation(() => Auth)
+  @Mutation(() => AuthPayload)
   @Extensions({
     validationSchema: yup.object().shape({
       data: yup.object().shape({
@@ -23,9 +23,13 @@ export class AuthResolver {
       }),
     }),
   })
-  async Login(@Arg('data') data: LoginInput): Promise<Auth> {
-    const result = await AuthService.login(data);
-    console.log(result);
-    return new Auth();
+  async login(@Arg('data') data: LoginInput,
+    @Ctx() { authService, logger }: { authService: AuthService; logger: Logger }): Promise<AuthPayload> {
+    const auth: Auth = await authService.login(data);
+    logger.info('AuthMutation#Login.check1 %o', auth);
+    return {
+      user: auth,
+      errors: null,
+    };
   }
 }

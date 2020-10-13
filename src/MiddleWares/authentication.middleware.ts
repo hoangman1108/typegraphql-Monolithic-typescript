@@ -10,7 +10,6 @@ export class AuthenticationMiddleware implements MiddlewareInterface<IContext> {
       context.user = { ...user };
     } else if (authenticate === true) {
       const { user } = await context.authenticate('jwt', { session: false }, context.req, context.res);
-
       if (!isEmpty(user)) {
         context.user = user;
       } else {

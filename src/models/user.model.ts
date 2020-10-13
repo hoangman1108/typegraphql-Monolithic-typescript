@@ -42,6 +42,7 @@ userSchema.pre('save', function save(next) {
   });
 });
 
+// eslint-disable-next-line func-names
 const comparePassword: ComparePasswordFunction = async function (this: IUser, candidatePassword) {
   const result = await bcrypt.compare(candidatePassword, this.password);
   return result;

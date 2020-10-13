@@ -10,6 +10,7 @@ import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
 export class EventResolver {
   @Mutation(() => EventPayload)
   @Extensions({
+    authenticate: true,
     validationSchema: yup.object().shape({
       data: yup.object().shape({
         title: yup.string()

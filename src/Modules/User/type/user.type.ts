@@ -3,7 +3,6 @@ import { ObjectId } from 'mongodb';
 import { Field, ObjectType } from 'type-graphql';
 import { ObjectIdScalar } from '../../../Scalars/ObjectIdScalars';
 import { Error } from '../../../Scalars/Error.type';
-import { AuthToken } from './authToken.type';
 @ObjectType()
 export class User {
   @Field(() => ObjectIdScalar)
@@ -17,9 +16,6 @@ export class User {
 
   @Field()
   password: string;
-
-  @Field(() => AuthToken, { nullable: true })
-  token?: AuthToken | null;
 }
 
 @ObjectType()
