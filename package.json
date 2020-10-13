@@ -5,10 +5,10 @@
     "main": "index.js",
     "scripts": {
         "build": "rimraf ./build && tsc",
-        "dev": "nodemon",
         "test": "mocha",
         "lint": "eslint --ext .jsx,.ts,.tsx ./src",
-        "start": "npm run build && node build/index.js"
+        "start": "ts-node src/App/Server.ts",
+        "dev": "nodemon"
     },
     "keywords": [],
     "author": "",
