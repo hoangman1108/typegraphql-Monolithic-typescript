@@ -4,7 +4,7 @@ import {
 } from 'type-graphql';
 import { Event, EventPayload } from './type/event.type';
 import { EventInput } from './type/event.input';
-import { IEvent, EventCollection } from '../../Models/event.model';
+import { IEvent, EventCollection } from '../../models/event.model';
 import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
 @Resolver()
 export class EventResolver {
