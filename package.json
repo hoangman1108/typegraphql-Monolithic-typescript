@@ -4,10 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon",
-        "start": "node build/App/Server.js",
-        "build": "tsc",
-        "postinstall": "npm run build"
+        "start": "ts-node src/App/Server.ts",
+        "dev": "nodemon"
     },
     "keywords": [],
     "author": "",
