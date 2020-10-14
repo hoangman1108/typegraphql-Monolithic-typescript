@@ -1,3 +1,0 @@
-declare const _default: "mutation login{\n  login(data:{\n    email:\"hoangman772@gmail.com\"\n    password:\"man123\"\n  }){\n    user{\n      profile{\n        id\n        email\n        password\n        name\n      }\n      token{\n        kind\n        accessToken\n        refreshToken\n      }\n    }\n    errors{\n      message\n      field\n    }\n  }\n}";
-export default _default;
-//# sourceMappingURL=playground.d.ts.map
