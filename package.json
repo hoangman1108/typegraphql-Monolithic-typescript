@@ -4,11 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": "rimraf ./build && tsc",
-        "test": "mocha",
-        "lint": "eslint --ext .jsx,.ts,.tsx ./src",
-        "start": "npm run build && node build/App/Server.js",
-        "dev": "nodemon"
+        "dev": "nodemon",
+        "start": "node build/App/Server.js",
+        "build": "tsc",
+        "postinstall": "npm run build"
     },
     "keywords": [],
     "author": "",
