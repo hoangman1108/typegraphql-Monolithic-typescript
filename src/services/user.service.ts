@@ -18,13 +18,7 @@ class UserService {
     if (!user) {
       throw new Error('User does not exists');
     }
-    const result:User = {
-      id: user.id,
-      name: user.name,
-      password: user.password,
-      email: user.email,
-    };
-    return result;
+    return { ...user.toObject() };
   }
 
   async delete(id: UserIdInput): Promise<string> {

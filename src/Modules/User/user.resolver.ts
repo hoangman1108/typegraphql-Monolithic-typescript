@@ -23,12 +23,8 @@ export class UserResolver {
     let results: User[] | null = null;
     if (list) {
       results = list.map((user: IUser) => ({
-        id: ObjectIdScalar.parseValue(user.id),
-        email: user.email,
-        name: user.name,
-        password: user.password,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        ...user.toObject(),
+        id: ObjectIdScalar.parseValue(user.toObject().id),
       }));
     }
     return {
@@ -62,10 +58,8 @@ export class UserResolver {
     const create: IUser = await userService.create(data);
     logger.info('UserMutation#create.check %o', create);
     const result: User = {
-      id: ObjectIdScalar.parseValue(create.id),
-      email: create.email,
-      name: create.name,
-      password: create.password,
+      ...create.toObject(),
+      id: ObjectIdScalar.parseValue(create.toObject().id),
     };
     return {
       user: result,
