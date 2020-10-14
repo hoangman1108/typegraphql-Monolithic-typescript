@@ -46,7 +46,6 @@ class AuthService {
     );
 
     const result: any = await AuthTokenCollection.findOne({ user: findUser.id }).populate('user');
-
     const token: AuthToken = {
       accessToken: result.accessToken,
       refreshToken: result.refreshToken,
@@ -59,6 +58,7 @@ class AuthService {
       email: result.user.email,
       password: result.user.password,
     };
+  
     return {
       token,
       profile,
