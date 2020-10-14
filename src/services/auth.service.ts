@@ -54,7 +54,7 @@ class AuthService {
     };
 
     const profile: User = {
-      ...result.user.toObject(),
+      ...result.ser.toObject(),
       id: ObjectIdScalar.parseValue(result.user.toObject().id),
     };
     return {
