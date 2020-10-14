@@ -88,7 +88,7 @@ class Server {
     new Playground().Init(this.App);
     Jwt.init(passport, this.serviceRegistry);
     this.App.use(passport.initialize());
-    this.App.listen(this.Port, '0.0.0.0');
+    this.App.listen(3000, '0.0.0.0');
   }
 }
 
