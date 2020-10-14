@@ -4,9 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node build/App/Server.js",
-        "build": "tsc",
-        "postinstall": "npm run build"
+        "build": "rimraf ./build && tsc",
+        "test": "mocha",
+        "dev": "nodemon",
+        "start": "npm run build && node build/App/Server.js"
     },
     "keywords": [],
     "author": "",
