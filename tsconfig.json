@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es5",
     "module": "commonjs",
-    "lib": ["es2018", "esnext.asynciterable"],
+    "lib": ["es5", "esnext.asynciterable"],
     "allowJs": true,
     "outDir": "build",
     "rootDir": "src",
@@ -20,6 +20,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "src/**/**/*", "src/**/**/**/*" /* Include every ts file in source folder */],
+  "include": ["src/**/*" /* Include every ts file in source folder */],
   "exclude": ["node_modules" /* exclude everything in  node_modules */]
 }
