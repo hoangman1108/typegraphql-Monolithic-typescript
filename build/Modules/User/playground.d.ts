@@ -1,0 +1,3 @@
+declare const _default: "mutation createUser {\n  createUser(data: { email: \"hoangman123@gmail.com\",\n    name: \"hoang man\"\n    password: \"man13\" }) {\n    user {\n      id\n      name\n      email\n      password\n    }\n    errors {\n      field\n      message\n    }\n  }\n}\n\nquery listUser{\n  listUsers{\n    users{\n      id\n      name\n      email\n      password\n    }\n    errors{\n      field\n      message\n    }\n  }\n}\n";
+export default _default;
+//# sourceMappingURL=playground.d.ts.map
