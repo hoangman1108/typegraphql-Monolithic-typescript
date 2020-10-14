@@ -88,9 +88,7 @@ class Server {
     new Playground().Init(this.App);
     Jwt.init(passport, this.serviceRegistry);
     this.App.use(passport.initialize());
-    this.App.listen(this.Port, '0.0.0.0', () => {
-      logger.info(`GraphQL Server is now running on port ${this.Port}`);
-    });
+    this.App.listen(this.Port, '0.0.0.0');
   }
 }
 
