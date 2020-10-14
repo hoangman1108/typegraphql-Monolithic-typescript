@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "dev": "nodemon",
         "start": "node build/App/Server.js",
         "build": "tsc",
         "postinstall": "npm run build"

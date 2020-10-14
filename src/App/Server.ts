@@ -24,7 +24,7 @@ import Jwt from './JWT';
 class Server {
   private App: express.Application;
 
-  private Port: Number;
+  private Port: number;
 
   private Schema: any;
 
@@ -36,7 +36,7 @@ class Server {
     this.App = express();
     this.Database = new Database();
     this.serviceRegistry = new ServiceRegistry(logger);
-    this.Port = Number(process.env.GRAPHQL_PORT) || 3000;
+    this.Port = Number(process.env.GRAPHQL_PORT || 3000);
   }
 
   async bootstrap() {
@@ -88,7 +88,7 @@ class Server {
     new Playground().Init(this.App);
     Jwt.init(passport, this.serviceRegistry);
     this.App.use(passport.initialize());
-    this.App.listen(this.Port, () => {
+    this.App.listen(this.Port, '0.0.0.0', () => {
       logger.info(`GraphQL Server is now running on port ${this.Port}`);
     });
   }
