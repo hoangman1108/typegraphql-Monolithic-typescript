@@ -36,7 +36,7 @@ class Server {
     this.App = express();
     this.Database = new Database();
     this.serviceRegistry = new ServiceRegistry(logger);
-    this.Port = Number(process.env.GRAPHQL_PORT) || 3000;
+    this.Port = Number(process.env.PORT) || 3000;
   }
 
   async bootstrap() {
@@ -88,7 +88,7 @@ class Server {
     new Playground().Init(this.App);
     Jwt.init(passport, this.serviceRegistry);
     this.App.use(passport.initialize());
-    this.App.listen(3000, '0.0.0.0', () => {
+    this.App.listen(Number(process.env.PORT) || 3000, '0.0.0.0', () => {
       logger.info(`GraphQL Server is now running on port ${this.Port}`);
     });
   }
