@@ -1,11 +1,12 @@
 import * as yup from 'yup';
 import {
-  Arg, Extensions, Mutation, Resolver,
+  Arg, Ctx, Extensions, Mutation, Resolver,
 } from 'type-graphql';
-import { Event, EventPayload } from './type/event.type';
-import { EventInput } from './type/event.input';
+import { Event, EventDelete, EventPayload } from './type/event.type';
+import { EventDeleteInput, EventInput } from './type/event.input';
 import { IEvent, EventCollection } from '../../models/event.model';
 import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
+import EventService from '../../services/event.service';
 @Resolver()
 export class EventResolver {
   @Mutation(() => EventPayload)
@@ -31,6 +32,16 @@ export class EventResolver {
     };
     return {
       event: result,
+      errors: null,
+    };
+  }
+
+  @Mutation(() => EventDelete)
+  async deleteEvent(@Arg('data') input: EventDeleteInput,
+    @Ctx() { eventService }: { eventService: EventService }): Promise<EventDelete> {
+    const isDelete = await eventService.delete(input);
+    return {
+      event: isDelete,
       errors: null,
     };
   }

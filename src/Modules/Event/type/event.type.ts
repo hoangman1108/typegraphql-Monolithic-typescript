@@ -33,3 +33,12 @@ export class EventPayloads {
   @Field(() => [Error], { nullable: true })
   errors: Error[] | null;
 }
+
+@ObjectType()
+export class EventDelete {
+  @Field()
+  event: string;
+
+  @Field(() => [Error], { nullable: true })
+  errors: Error[] | null;
+}

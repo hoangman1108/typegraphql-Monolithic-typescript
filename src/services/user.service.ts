@@ -3,9 +3,16 @@ import { UserIdInput, UserInput } from '../Modules/User/type/user.input';
 import { User } from '../Modules/User/type/user.type';
 
 class UserService {
-  async create(user: UserInput): Promise<IUser> {
-    const create: IUser = await UserCollection.create(user);
-    return create;
+  async create(input: UserInput): Promise<IUser> {
+    return UserCollection.findOne({ email: input.email })
+      .then(async (user: IUser | null) => {
+        if (user) {
+          const error = new Error('Email is exists');
+          throw error;
+        }
+        const create = await UserCollection.create(input);
+        return create;
+      });
   }
 
   async list(): Promise<IUser[] | null> {

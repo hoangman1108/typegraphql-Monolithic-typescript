@@ -1,6 +1,6 @@
 import { Logger } from 'pino';
 import EventsBus from './eventBus';
-import Modules from '../Modules/register';
+import Modules from '../services/register';
 
 class ServiceRegistry {
   public services: any;

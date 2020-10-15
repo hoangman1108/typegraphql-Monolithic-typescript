@@ -16,7 +16,7 @@ import { Context } from './Context';
 import { AuthenticationMiddleware } from '../MiddleWares/authentication.middleware';
 import { ValidationMiddleware } from '../MiddleWares/validate.middleware';
 
-import ServiceRegistry from '../services/registry';
+import ServiceRegistry from './registry';
 import logger from './Log';
 import Database from '../database/db';
 import Jwt from './JWT';
@@ -88,7 +88,7 @@ class Server {
     new Playground().Init(this.App);
     Jwt.init(passport, this.serviceRegistry);
     this.App.use(passport.initialize());
-    this.App.listen(this.Port, '0.0.0.0', () => {
+    this.App.listen(this.Port, 'localhost', () => {
       logger.info(`GraphQL Server is now running on port ${this.Port}`);
     });
   }

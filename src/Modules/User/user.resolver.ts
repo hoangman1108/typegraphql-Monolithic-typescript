@@ -44,7 +44,7 @@ export class UserResolver {
           .email('Email field should contain a valid email.'),
         password: yup.string()
           .trim()
-          .min(5)
+          .min(6)
           .required('Password is a required field.'),
         name: yup.string()
           .trim()

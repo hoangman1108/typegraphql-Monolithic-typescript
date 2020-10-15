@@ -1,6 +1,6 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { get } from 'lodash';
-import ServiceRegistry from '../services/registry';
+import ServiceRegistry from './registry';
 import UserService from '../services/user.service';
 import { User } from '../Modules/User/type/user.type';
 
