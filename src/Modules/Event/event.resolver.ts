@@ -2,11 +2,21 @@ import * as yup from 'yup';
 import {
   Arg, Ctx, Extensions, Mutation, Resolver,
 } from 'type-graphql';
+import { Logger } from 'pino';
 import { Event, EventDelete, EventPayload } from './type/event.type';
 import { EventDeleteInput, EventInput } from './type/event.input';
 import { IEvent, EventCollection } from '../../models/event.model';
 import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
 import EventService from '../../services/event.service';
+
+const cloudinary = require('cloudinary');
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
 @Resolver()
 export class EventResolver {
   @Mutation(() => EventPayload)
@@ -23,12 +33,23 @@ export class EventResolver {
       }),
     }),
   })
-  async createEvent(@Arg('data') input: EventInput): Promise<EventPayload> {
+  async createEvent(@Arg('data') input: EventInput,
+    @Ctx() { logger }: { logger: Logger }): Promise<EventPayload> {
+    const filename = `${input.image}`;
+    try {
+      const photo = await cloudinary.v2.uploader.upload(filename);
+      input.image = photo.url;
+    } catch (error) {
+      logger.info(error);
+    }
+
     const create: IEvent = await EventCollection.create(input);
     const result: Event = {
       title: create.title,
       description: create.description,
       id: ObjectIdScalar.parseValue(create.id),
+      image: input.image,
+
     };
     return {
       event: result,

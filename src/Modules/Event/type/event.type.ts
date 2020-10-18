@@ -14,6 +14,9 @@ export class Event {
 
   @Field()
   description: string;
+
+  @Field()
+  image: string;
 }
 
 @ObjectType()

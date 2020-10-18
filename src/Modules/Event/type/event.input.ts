@@ -10,6 +10,9 @@ export class EventInput {
 
   @Field()
   description: string;
+
+  @Field()
+  image: string;
 }
 
 @InputType()
