@@ -8,6 +8,7 @@ export class ErrorMiddleware implements MiddlewareInterface<IContext> {
     try {
       return await next();
     } catch (err) {
+      console.log(err.message, err);
       context.logger.error(err);
       let errors: any = [];
       if (err instanceof yup.ValidationError) {

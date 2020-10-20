@@ -15,6 +15,7 @@ import { Playground } from './Playground';
 import { Context } from './Context';
 import { AuthenticationMiddleware } from '../MiddleWares/authentication.middleware';
 import { ValidationMiddleware } from '../MiddleWares/validate.middleware';
+import { ErrorMiddleware } from '../MiddleWares/error.middleware';
 
 import ServiceRegistry from './registry';
 import logger from './Log';
@@ -44,7 +45,7 @@ class Server {
       resolvers: [
         path.resolve(__dirname, '../Modules/**/*.resolver.{ts,js}'),
       ],
-      globalMiddlewares: [AuthenticationMiddleware, ValidationMiddleware],
+      globalMiddlewares: [ErrorMiddleware, AuthenticationMiddleware, ValidationMiddleware],
       scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
     });
 
