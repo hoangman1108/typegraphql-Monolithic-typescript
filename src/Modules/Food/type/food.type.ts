@@ -19,8 +19,8 @@ export class Food{
 
 @ObjectType()
 export class FoodPayload{
-    @Field(()=>Food)
-    food: Food;
+    @Field(()=>Food, { nullable: true})
+    food: Food | null;
 
     @Field(()=>[Error], { nullable: true})
     errors: Error[] | null;
@@ -28,8 +28,8 @@ export class FoodPayload{
 
 @ObjectType()
 export class FoodPayloads{
-    @Field(()=>[Food])
-    foods: Food[];
+    @Field(()=>[Food], { nullable: true})
+    foods: Food[] | null;
 
     @Field(()=>[Error], { nullable: true})
     errors: Error[] | null;

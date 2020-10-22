@@ -14,7 +14,7 @@ class FoodService {
             })
     }
 
-    async list(): Promise<IFood[]> {
+    async list(): Promise<IFood[] | null> {
         return FoodCollection.find().then((foods: IFood[]) => {
             return foods;
         })

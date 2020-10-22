@@ -25,7 +25,7 @@ export class FoodResolver {
                 foodService: FoodService; logger: Logger
             }): Promise<FoodPayload> {
         const create: IFood = await foodService.create(input);
-
+        logger.info('FoodMutation#create.check %o', create);
         return {
             food: {
                 ...create.toObject(),
@@ -42,13 +42,18 @@ export class FoodResolver {
     async listFood(@Ctx() { foodService, logger }: {
         foodService: FoodService, logger: Logger
     }): Promise<FoodPayloads> {
-        const list: IFood[] = await foodService.list();
-        const results: Food[] = list.map((food: IFood) => {
-            return {
-                ...food.toObject(),
-                id: ObjectIdScalar.parseValue(food.toObject().id),
-            }
-        })
+        const list: IFood[] | null = await foodService.list();
+        logger.info('FoodQuery#list.check %o', list);
+    let results: Food[] | null = null;
+        if(list){
+            results = list.map((food: IFood) => {
+                return {
+                    ...food.toObject(),
+                    id: ObjectIdScalar.parseValue(food.toObject().id),
+                }
+            });
+        }
+       
         return {
             foods: results,
             errors: null,
