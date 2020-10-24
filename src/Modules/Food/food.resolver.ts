@@ -29,7 +29,7 @@ export class FoodResolver {
         return {
             food: {
                 ...create.toObject(),
-                id: ObjectIdScalar.parseValue(create.toObject().id),
+                id: ObjectIdScalar.parseValue(create.id),
             },
             errors: null
         }
@@ -49,7 +49,7 @@ export class FoodResolver {
             results = list.map((food: IFood) => {
                 return {
                     ...food.toObject(),
-                    id: ObjectIdScalar.parseValue(food.toObject().id),
+                    id: ObjectIdScalar.parseValue(food.id),
                 }
             });
         }

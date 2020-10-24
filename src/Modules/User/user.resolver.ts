@@ -19,12 +19,13 @@ export class UserResolver {
   })
   async listUsers(@Ctx() { userService, logger }: { userService: UserService; logger: Logger }): Promise<UserPayloads> {
     const list: IUser[] | null = await userService.list();
+
     logger.info('UserQuery#list.check %o', list);
     let results: User[] | null = null;
     if (list) {
       results = list.map((user: IUser) => ({
         ...user.toObject(),
-        id: ObjectIdScalar.parseValue(user.toObject().id),
+        id: ObjectIdScalar.parseValue(user.id),
       }));
     }
     return {
@@ -55,11 +56,13 @@ export class UserResolver {
   })
   async createUser(@Arg('data') data: UserInput,
     @Ctx() { userService, logger }: { userService: UserService; logger: Logger }): Promise<UserPayload> {
+    const error = new Error('Suspend this function');
+    throw error;
     const create: IUser = await userService.create(data);
     logger.info('UserMutation#create.check %o', create);
     const result: User = {
       ...create.toObject(),
-      id: ObjectIdScalar.parseValue(create.toObject().id),
+      id: ObjectIdScalar.parseValue(create.id),
     };
     return {
       user: result,
@@ -72,6 +75,7 @@ export class UserResolver {
     @Ctx() { userService, logger }: { userService: UserService; logger: Logger })
     : Promise<UserDelete> {
     const deleted: string = await userService.delete(id);
+    console.log(deleted);
     logger.info('UserMutation#delete.check1 %o', deleted);
     return {
       user: deleted,
