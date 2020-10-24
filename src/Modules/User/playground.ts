@@ -1,7 +1,7 @@
 export default `mutation createUser {
-  createUser(data: { email: "hoangman123@gmail.com",
-    name: "hoang man"
-    password: "man13" }) {
+  createUser(data: { email: "hoangman772@gmail.com",
+    name: "Hoàng Mẫn"
+    password: "man123" }) {
     user {
       id
       name
@@ -23,6 +23,18 @@ query listUser{
       email
       password
     }
+    errors{
+      field
+      message
+    }
+  }
+}
+
+mutation deleteUser{
+  userDelete(data: {
+    id: "5f8e5d11565221002a2edbf4"
+  }){
+    user
     errors{
       field
       message

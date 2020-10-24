@@ -21,7 +21,6 @@ const Jwt = {
           const {
             userService,
           }: { userService: UserService } = serviceRegistry.services;
-          console.log(token);
           const userId = get(token, 'sub');
           if (userId) {
             try {

@@ -56,8 +56,8 @@ export class UserResolver {
   })
   async createUser(@Arg('data') data: UserInput,
     @Ctx() { userService, logger }: { userService: UserService; logger: Logger }): Promise<UserPayload> {
-    const error = new Error('Suspend this function');
-    throw error;
+    // const error = new Error('Suspend this function');
+    // throw error;
     const create: IUser = await userService.create(data);
     logger.info('UserMutation#create.check %o', create);
     const result: User = {
@@ -75,10 +75,9 @@ export class UserResolver {
     @Ctx() { userService, logger }: { userService: UserService; logger: Logger })
     : Promise<UserDelete> {
     const deleted: string = await userService.delete(id);
-    console.log(deleted);
     logger.info('UserMutation#delete.check1 %o', deleted);
     return {
-      user: deleted,
+      user: 'DELETE_USER',
       errors: null,
     };
   }
