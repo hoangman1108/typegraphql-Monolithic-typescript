@@ -50,6 +50,7 @@ export class Playground {
           'tracing.tracingSupported': true,
           'editor.fontSize': 12,
           'editor.fontFamily': '\'Roboto\', \'Consolas\', \'Inconsolata\', \'Droid Sans Mono\', \'Monaco\', monospace',
+          'request.globalHeaders': {},
           'schema.polling.enable': false,
           'schema.polling.endpointFilter': '/graphql',
           'schema.polling.interval': 1,

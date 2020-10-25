@@ -1,37 +1,34 @@
 // eslint-disable-next-line max-classes-per-file
 import { ObjectId } from 'mongodb';
 import { Field, ObjectType } from 'type-graphql';
-
-import { ObjectIdScalar } from '../../../Scalars/ObjectIdScalars';
 import { Error } from '../../../Scalars/Error.type';
+import { ObjectIdScalar } from '../../../Scalars/ObjectIdScalars';
+
 @ObjectType()
-export class Food {
+export class Board {
   @Field(() => ObjectIdScalar)
   id: ObjectId;
 
-  @Field()
-  title: string;
+  @Field(() => ObjectIdScalar)
+  user: ObjectId;
 
-  @Field()
-  icon: string;
-
-  @Field()
-  body: string;
+  @Field(() => String)
+  name: string;
 }
 
 @ObjectType()
-export class FoodPayload {
-  @Field(() => Food, { nullable: true })
-  food: Food | null;
+export class BoardPayload {
+  @Field(() => Board, { nullable: true })
+  board: Board;
 
   @Field(() => [Error], { nullable: true })
   errors: Error[] | null;
 }
 
 @ObjectType()
-export class FoodPayloads {
-  @Field(() => [Food], { nullable: true })
-  foods: Food[] | null;
+export class BoardPayloads {
+  @Field(() => [Board], { nullable: true })
+  boards: Board[] | null;
 
   @Field(() => [Error], { nullable: true })
   errors: Error[] | null;

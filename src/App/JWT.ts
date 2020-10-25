@@ -2,7 +2,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { get } from 'lodash';
 import ServiceRegistry from './registry';
 import UserService from '../services/user.service';
-import { User } from '../Modules/User/type/user.type';
+import { IUser } from '../models/user.model';
 
 const Jwt = {
   init(passport: any, serviceRegistry: ServiceRegistry) {
@@ -24,7 +24,7 @@ const Jwt = {
           const userId = get(token, 'sub');
           if (userId) {
             try {
-              const user:User = await userService.detail(userId);
+              const user:IUser = await userService.detail(userId);
               done(null, user);
             } catch (err) {
               done(err);

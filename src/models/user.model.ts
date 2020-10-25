@@ -3,14 +3,16 @@ import {
   Document, model, Schema, Error,
 } from 'mongoose';
 
+// eslint-disable-next-line max-classes-per-file
+/* eslint-disable @typescript-eslint/no-unused-vars */
+type ComparePasswordFunction = (this: any, candidatePassword: string, cb?: (err: any, isMatch: any) => {}) => void;
+
 export type IUser = Document & {
   email: string;
   name: string;
   password: string;
   comparePassword: ComparePasswordFunction;
 };
-
-type ComparePasswordFunction = (this: IUser, candidatePassword: string, cb?: (err: any, isMatch: any) => {}) => void;
 
 const userSchema = new Schema({
   email: {

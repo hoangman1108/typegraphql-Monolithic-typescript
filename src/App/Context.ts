@@ -4,7 +4,6 @@ import passport from 'passport';
 import logger from './Log';
 import { IOptions } from '../type/passport';
 import { IUser } from '../models/user.model';
-import { User } from '../Modules/User/type/user.type';
 
 export interface IContext {
   req: Request;
@@ -17,7 +16,7 @@ export interface IContext {
 export const Context = {
   logger,
   authenticate: (key: string, options: IOptions, req: Request, res: Response) => new Promise((resolve, reject) => {
-    const done = (error: Error, user: User, info: any) => {
+    const done = (error: Error, user: IUser, info: any) => {
       if (error) reject(error);
       resolve({ user, info });
     };

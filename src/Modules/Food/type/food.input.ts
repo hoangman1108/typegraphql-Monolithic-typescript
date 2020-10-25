@@ -4,19 +4,19 @@ import { Field, InputType } from 'type-graphql';
 import { ObjectIdScalar } from '../../../Scalars/ObjectIdScalars';
 
 @InputType()
-export class FoodInput{
-    @Field()
-    title: string;
+export class FoodInput {
+  @Field()
+  title: string;
 
-    @Field()
-    icon: string;
+  @Field()
+  icon: string;
 
-    @Field()
-    body: string;
+  @Field()
+  body: string;
 }
 
 @InputType()
-export class FoodDeleteInput{
-    @Field(()=> ObjectIdScalar)
-    id: ObjectId;
+export class FoodDeleteInput {
+  @Field(() => ObjectIdScalar)
+  id: ObjectId;
 }

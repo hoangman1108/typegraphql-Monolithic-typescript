@@ -1,6 +1,5 @@
 import { IUser, UserCollection } from '../models/user.model';
 import { UserIdInput, UserInput } from '../Modules/User/type/user.input';
-import { User } from '../Modules/User/type/user.type';
 
 class UserService {
   async create(input: UserInput): Promise<IUser> {
@@ -20,12 +19,12 @@ class UserService {
     return list;
   }
 
-  async detail(id: String): Promise<User> {
+  async detail(id: String): Promise<IUser> {
     const user: IUser | null = await UserCollection.findById(id);
     if (!user) {
       throw new Error('User does not exists');
     }
-    return { ...user.toObject() };
+    return user;
   }
 
   async delete(id: UserIdInput): Promise<string> {
