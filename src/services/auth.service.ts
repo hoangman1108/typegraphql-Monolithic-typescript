@@ -62,6 +62,15 @@ class AuthService {
       profile,
     };
   }
+
+  async getRefreshToken(accessToken: string): Promise<string> {
+    return AuthTokenCollection.findOne({
+      accessToken,
+    }).then((token: IAuthToken | null) => {
+      if (token) return token.refreshToken;
+      return 'refresh token not exists';
+    });
+  }
 }
 
 export default AuthService;

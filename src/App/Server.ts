@@ -45,7 +45,9 @@ class Server {
       resolvers: [
         path.resolve(__dirname, '../Modules/**/*.resolver.{ts,js}'),
       ],
-      globalMiddlewares: [ErrorMiddleware, AuthenticationMiddleware, ValidationMiddleware],
+      globalMiddlewares: [
+        ErrorMiddleware, AuthenticationMiddleware, ValidationMiddleware,
+      ],
       scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
     });
 

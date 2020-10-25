@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { IUser } from '../models/user.model';
 
-const jwtConfig = {
+export const jwtConfig = {
   accessTokenSecret: process.env.JWT_ACCESSTOKEN_SECRET || 'secret',
   refreshTokenSecret: process.env.JWT_REFRESHTOKEN_SECRET || 'secret',
   issuer: process.env.JWT_ISSUER,
@@ -14,7 +14,7 @@ const authUtils = {
       subject: user.id,
       audience: jwtConfig.audience,
       issuer: jwtConfig.issuer,
-      expiresIn: '30min',
+      expiresIn: '20s',
     });
   },
   async generateRefreshToken(user: IUser) {
@@ -22,7 +22,17 @@ const authUtils = {
       subject: user.id,
       audience: jwtConfig.audience,
       issuer: jwtConfig.issuer,
-      expiresIn: '2d',
+      expiresIn: '30d',
+    });
+  },
+  verifyToken(token: string) {
+    return new Promise((resolve, reject) => {
+      jwt.verify(token, jwtConfig.refreshTokenSecret, (error, decoded) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(decoded);
+      });
     });
   },
 };
