@@ -20,3 +20,12 @@ export class AuthPayload {
   @Field(() => [Error], { nullable: true })
   errors: Error[] | null;
 }
+
+@ObjectType()
+export class AccessToken {
+  @Field(() => String, { nullable: true })
+  token: string | null;
+
+  @Field(() => [Error], { nullable: true })
+  errors: Error[] | null;
+}

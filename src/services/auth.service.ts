@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { AuthTokenCollection, IAuthToken } from '../models/token.model';
 import { IUser, UserCollection } from '../models/user.model';
 import { LoginInput } from '../Modules/Auth/type/auth.input';
@@ -63,12 +64,30 @@ class AuthService {
     };
   }
 
-  async getRefreshToken(accessToken: string): Promise<string> {
+  async getRefreshToken(req: Request): Promise<string> {
     return AuthTokenCollection.findOne({
-      accessToken,
+      accessToken: req.headers?.authorization,
     }).then((token: IAuthToken | null) => {
       if (token) return token.refreshToken;
       return 'refresh token not exists';
+    });
+  }
+
+  async newAccessToken(token: string): Promise<string> {
+    return AuthTokenCollection.findOne({
+      accessToken: token,
+    }).then(async (auth: IAuthToken | null) => {
+      if (auth) {
+        const verifyToken: any = await authUtils.verifyToken(auth.refreshToken);
+        const user:IUser| null = await UserCollection.findById(verifyToken.sub);
+        if (user) {
+          const accessToken: string = await authUtils.generateAccessToken(user);
+          return accessToken;
+        }
+        const error = new Error('User is not exists');
+        throw error;
+      }
+      throw new Error('Authentication required');
     });
   }
 }
