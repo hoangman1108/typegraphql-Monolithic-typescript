@@ -81,7 +81,7 @@ class AuthService {
         const verifyToken: any = await authUtils.verifyToken(auth.refreshToken);
         const user:IUser| null = await UserCollection.findById(verifyToken.sub);
         if (user) {
-          const accessToken: string = await authUtils.generateNewAccessToken(user);
+          const accessToken: string = await authUtils.generateAccessToken(user);
           return accessToken;
         }
         const error = new Error('User is not exists');
