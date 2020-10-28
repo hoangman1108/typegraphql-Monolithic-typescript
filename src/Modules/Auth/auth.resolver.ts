@@ -1,10 +1,10 @@
 import * as yup from 'yup';
 import {
-  Arg, Ctx, Extensions, Mutation, Resolver,
+  Arg, Ctx, Extensions, Mutation, Query, Resolver,
 } from 'type-graphql';
 import { Logger } from 'pino';
-import { Auth, AuthPayload } from './type/auth.type';
-import { LoginInput } from './type/auth.input';
+import { AccessToken, Auth, AuthPayload } from './type/auth.type';
+import { LoginInput, TokenInput } from './type/auth.input';
 import AuthService from '../../services/auth.service';
 @Resolver()
 export class AuthResolver {
@@ -29,6 +29,17 @@ export class AuthResolver {
     logger.info('AuthMutation#Login.check1 %o', auth);
     return {
       user: auth,
+      errors: null,
+    };
+  }
+
+  @Query(() => AccessToken)
+  async getNewAccessToken(@Arg('data') data: TokenInput,
+    @Ctx() { authService, logger }: { authService: AuthService; logger: Logger }): Promise<AccessToken> {
+    const accessToken:string = await authService.newAccessToken(data.token);
+    logger.info('AuthQuery#GetNewToken.check1 %o', accessToken);
+    return {
+      token: accessToken,
       errors: null,
     };
   }

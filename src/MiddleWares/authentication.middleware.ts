@@ -4,7 +4,6 @@ import { IContext } from '../App/Context';
 
 // import AuthService from '../services/auth.service';
 // import authHelper from '../Utils/auth';
-
 export class AuthenticationMiddleware implements MiddlewareInterface<IContext> {
   async use({ info, context }: ResolverData<IContext>, next: NextFn) {
     const { authenticate } = info?.parentType.getFields()[info.fieldName].extensions || {};
@@ -22,8 +21,6 @@ export class AuthenticationMiddleware implements MiddlewareInterface<IContext> {
       // }
       if (!isEmpty(jwt.user)) {
         context.user = jwt.user;
-      } else {
-        throw new Error('Authentication required');
       }
     }
     return next();
