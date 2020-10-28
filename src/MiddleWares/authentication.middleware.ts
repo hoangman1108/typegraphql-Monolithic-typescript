@@ -15,7 +15,6 @@ export class AuthenticationMiddleware implements MiddlewareInterface<IContext> {
       context.user = { ...user };
     } else if (authenticate === true) {
       const jwt = await context.authenticate('jwt', { session: false }, context.req, context.res);
-<<<<<<< HEAD
       if (jwt.info && isEmpty(jwt.user)) {
         if (!context.req.headers!.authorization) {
           throw new Error('Authentication required');
@@ -37,16 +36,6 @@ export class AuthenticationMiddleware implements MiddlewareInterface<IContext> {
           context.user = user;
         }
       } else if (!isEmpty(jwt.user)) {
-=======
-      // if (jwt.info) {
-      //   const authService = new AuthService();
-      //   const refreshToken = await authService.getRefreshToken(context.req.headers?.authorization || '');
-      //   const verifyToken = await authHelper.verifyToken(refreshToken);
-      //   const error = new Error(jwt.info);
-      //   throw error;
-      // }
-      if (!isEmpty(jwt.user)) {
->>>>>>> d60ffb8234fd18ece55fefee13915450400039e6
         context.user = jwt.user;
       }
     }
