@@ -17,6 +17,14 @@ const authUtils = {
       expiresIn: '20s',
     });
   },
+  async generateNewAccessToken(user: IUser) {
+    return jwt.sign({ user: user.email }, jwtConfig.accessTokenSecret, {
+      subject: user.id,
+      audience: jwtConfig.audience,
+      issuer: jwtConfig.issuer,
+      expiresIn: '30h',
+    });
+  },
   async generateRefreshToken(user: IUser) {
     return jwt.sign({ user: user.email }, jwtConfig.refreshTokenSecret, {
       subject: user.id,
