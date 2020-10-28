@@ -1,9 +1,12 @@
 import { MiddlewareInterface, ResolverData, NextFn } from 'type-graphql';
 import { isFunction, isEmpty } from 'lodash';
 import { IContext } from '../App/Context';
-
 // import AuthService from '../services/auth.service';
-// import authHelper from '../Utils/auth';
+
+import AuthService from '../services/auth.service';
+import authHelper from '../Utils/auth';
+import { IUser, UserCollection } from '../models/user.model';
+
 export class AuthenticationMiddleware implements MiddlewareInterface<IContext> {
   async use({ info, context }: ResolverData<IContext>, next: NextFn) {
     const { authenticate } = info?.parentType.getFields()[info.fieldName].extensions || {};
@@ -16,13 +19,22 @@ export class AuthenticationMiddleware implements MiddlewareInterface<IContext> {
         if (!context.req.headers!.authorization) {
           throw new Error('Authentication required');
         }
-        // const authService = new AuthService();
-        // const refreshToken = await authService.getRefreshToken(context.req);
-        // const verifyToken = await authHelper.verifyToken(refreshToken);
-        // console.log(verifyToken);
-        // const accessToken = await authHelper.generateAccessToken()
-        const error = new Error(jwt.info);
-        throw error;
+        if (jwt.info && isEmpty(jwt.user)) {
+          const authService = new AuthService();
+          const refreshToken: string = await authService.getRefreshToken(context.req);
+          if (refreshToken === 'TOKEN_NOT_EXISTS') {
+            throw new Error('Authentication required');
+          }
+          const verifyToken: any = await authHelper.verifyToken(refreshToken);
+
+          const user: IUser | null = await UserCollection.findById(verifyToken.sub);
+          if (!user) {
+            throw new Error('Authentication required');
+          }
+          const accessToken = await authHelper.generateAccessToken(user);
+          context.res.cookie('token', accessToken);
+          context.user = user;
+        }
       } else if (!isEmpty(jwt.user)) {
         context.user = jwt.user;
       }

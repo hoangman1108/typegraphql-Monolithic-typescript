@@ -69,7 +69,7 @@ class AuthService {
       accessToken: req.headers?.authorization,
     }).then((token: IAuthToken | null) => {
       if (token) return token.refreshToken;
-      return 'refresh token not exists';
+      return 'TOKEN_NOT_EXISTS';
     });
   }
 
