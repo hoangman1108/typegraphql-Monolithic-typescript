@@ -2,7 +2,8 @@ import { Document, model, Schema } from 'mongoose';
 
 export type IBoard = Document & {
   user: Schema.Types.ObjectId;
-  name: string;
+  title: string;
+  date: Date;
 };
 
 const boardSchema = new Schema(
@@ -11,8 +12,12 @@ const boardSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
-    name: {
+    title: {
       type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
       required: true,
     },
   },

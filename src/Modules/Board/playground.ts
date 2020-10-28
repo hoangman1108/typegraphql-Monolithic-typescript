@@ -1,31 +1,40 @@
-export default `mutation createBoard{
-  createBoard(data:{
-    name: "this is board 3"
-  }){
-    board{
+export default `mutation createBoard {
+  createBoard(data: { title: "this is board 3" }) {
+    board {
       id
       user
-      name
+      title
+      date
     }
-    errors{
+    errors {
       field
       message
     }
   }
 }
 
-query listBoard{
-  listBoard(data:{
-    
-  }){
-    boards{
+query listBoard {
+  listBoard(data: {}) {
+    boards {
       id
-      name
+      title
       user
+      date
     }
-    errors{
+    errors {
       field
       message
     }
   }
-}`;
+}
+
+mutation deleteBoard {
+  deleteBoard(data: { id: "" }) {
+    board
+    errors {
+      field
+      message
+    }
+  }
+}
+`;

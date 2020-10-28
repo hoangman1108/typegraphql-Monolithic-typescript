@@ -6,7 +6,7 @@ import { ObjectIdScalar } from '../../../Scalars/ObjectIdScalars';
 @InputType()
 export class BoardInput {
   @Field(() => String)
-  name: string;
+  title: string;
 }
 
 @InputType()
@@ -15,5 +15,11 @@ export class FindBoardInput {
   user: ObjectId | null;
 
   @Field(() => String, { nullable: true })
-  name: string | null;
+  title: string | null;
+}
+
+@InputType()
+export class IdBoardInput {
+  @Field(() => ObjectIdScalar)
+  id: ObjectId;
 }

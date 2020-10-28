@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+import { CreateQuery, Schema } from 'mongoose';
 import { Logger } from 'pino';
 import {
   Arg, Ctx, Extensions, Mutation, Query, Resolver,
@@ -6,9 +8,11 @@ import { IBoard } from '../../models/board.model';
 import { IUser } from '../../models/user.model';
 import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
 import BoardService from '../../services/board.service';
-import { BoardInput, FindBoardInput } from './type/board.input';
+import { BoardInput, FindBoardInput, IdBoardInput } from './type/board.input';
 
-import { Board, BoardPayload, BoardPayloads } from './type/board.type';
+import {
+  Board, BoardPayload, BoardPayloads, DeleteBoardPayload,
+} from './type/board.type';
 
 @Resolver()
 export class BoardResolver {
@@ -21,12 +25,13 @@ export class BoardResolver {
       boardService, user, logger,
     }: {
       boardService: BoardService;
-      logger: Logger;
       user: IUser;
+      logger: Logger;
     }): Promise<BoardPayload> {
-    const input: any = {
-      user: <Object>user.id,
-      name: data.name,
+    const input: CreateQuery<IBoard> = {
+      title: data.title,
+      date: new Date(),
+      user: <Schema.Types.ObjectId>user.id,
     };
     const create: IBoard = await boardService.create(input);
     logger.info('BoardMutation#create.check %o', create);
@@ -62,6 +67,25 @@ export class BoardResolver {
     }
     return {
       boards: results,
+      errors: null,
+    };
+  }
+
+  @Mutation(() => DeleteBoardPayload)
+  @Extensions({
+    authenticate: true,
+  })
+  async deleteBoard(@Arg('data') id: IdBoardInput,
+    @Ctx() {
+      boardService, logger,
+    }: {
+      boardService: BoardService;
+      logger: Logger;
+    }) {
+    const deleted: string = await boardService.deleteBoard(id);
+    logger.info('BoardMutation#delete.check %o', deleted);
+    return {
+      board: deleted,
       errors: null,
     };
   }

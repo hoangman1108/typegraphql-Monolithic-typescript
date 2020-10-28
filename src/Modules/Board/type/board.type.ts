@@ -13,7 +13,10 @@ export class Board {
   user: ObjectId;
 
   @Field(() => String)
-  name: string;
+  title: string;
+
+  @Field()
+  date: Date;
 }
 
 @ObjectType()
@@ -29,6 +32,15 @@ export class BoardPayload {
 export class BoardPayloads {
   @Field(() => [Board], { nullable: true })
   boards: Board[] | null;
+
+  @Field(() => [Error], { nullable: true })
+  errors: Error[] | null;
+}
+
+@ObjectType()
+export class DeleteBoardPayload {
+  @Field()
+  board: string;
 
   @Field(() => [Error], { nullable: true })
   errors: Error[] | null;

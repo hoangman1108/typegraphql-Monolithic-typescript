@@ -1,11 +1,12 @@
+import { CreateQuery } from 'mongoose';
 import { BoardCollection, IBoard } from '../models/board.model';
-import { FindBoardInput } from '../Modules/Board/type/board.input';
+import { FindBoardInput, IdBoardInput } from '../Modules/Board/type/board.input';
 
 class BoardService {
-  async create(input: any): Promise<IBoard> {
+  async create(input: CreateQuery<IBoard>): Promise<IBoard> {
     return BoardCollection.findOne(
       {
-        name: input.name,
+        title: input.title,
         user: <Object>input.user,
       }
     ).then(async (board: IBoard | null) => {
@@ -20,9 +21,16 @@ class BoardService {
 
   async list(data: FindBoardInput): Promise<IBoard[]> {
     const find: any = {};
-    if (data.name) find.name = data.name;
+    if (data.title) find.title = data.title;
     if (data.user) find.user = data.user;
     return BoardCollection.find(find).then((boards: IBoard[]) => boards);
+  }
+
+  async deleteBoard(id: IdBoardInput): Promise<string> {
+    return BoardCollection.deleteOne({ _id: id.id }).then((value) => {
+      if (value.n && value?.n > 0) return 'DELETE_SUCCESS';
+      return 'DELETE_FAIL';
+    });
   }
 }
 export default BoardService;
