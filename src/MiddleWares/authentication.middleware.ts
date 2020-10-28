@@ -32,6 +32,7 @@ export class AuthenticationMiddleware implements MiddlewareInterface<IContext> {
             throw new Error('Authentication required');
           }
           const accessToken = await authHelper.generateAccessToken(user);
+          console.log(accessToken);
           context.res.cookie('token', accessToken);
           context.user = user;
         }
