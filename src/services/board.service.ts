@@ -27,6 +27,7 @@ class BoardService {
       .then((boards: IBoard[]) => boards.map((board: any) => ({
         ...board.toObject(),
         user: board.user?.name,
+        id: board.id,
       })));
   }
 

@@ -55,7 +55,7 @@ export class BoardResolver {
       boardService: BoardService;
       logger: Logger;
     }): Promise<BoardPayloads> {
-    const list: IBoard[] = await boardService.list(find);
+    const list: any = await boardService.list(find);
     logger.info('BoardQuery#list.check %o', list);
     let results: any = null;
 
