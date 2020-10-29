@@ -9,8 +9,8 @@ export class Board {
   @Field(() => ObjectIdScalar)
   id: ObjectId;
 
-  @Field(() => ObjectIdScalar)
-  user: ObjectId;
+  @Field(() => String)
+  user: string;
 
   @Field(() => String)
   title: string;

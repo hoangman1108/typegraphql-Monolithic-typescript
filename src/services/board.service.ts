@@ -23,7 +23,11 @@ class BoardService {
     const find: any = {};
     if (data.title) find.title = data.title;
     if (data.user) find.user = data.user;
-    return BoardCollection.find(find).then((boards: IBoard[]) => boards);
+    return BoardCollection.find(find).populate('user')
+      .then((boards: IBoard[]) => boards.map((board: any) => ({
+        ...board.toObject(),
+        user: board.user?.name,
+      })));
   }
 
   async deleteBoard(id: IdBoardInput): Promise<string> {

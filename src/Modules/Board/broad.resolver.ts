@@ -11,7 +11,7 @@ import BoardService from '../../services/board.service';
 import { BoardInput, FindBoardInput, IdBoardInput } from './type/board.input';
 
 import {
-  Board, BoardPayload, BoardPayloads, DeleteBoardPayload,
+  BoardPayload, BoardPayloads, DeleteBoardPayload,
 } from './type/board.type';
 
 @Resolver()
@@ -57,11 +57,11 @@ export class BoardResolver {
     }): Promise<BoardPayloads> {
     const list: IBoard[] = await boardService.list(find);
     logger.info('BoardQuery#list.check %o', list);
-    let results: Board[] | null = null;
+    let results: any = null;
 
     if (list) {
       results = list.map((board: IBoard) => ({
-        ...board.toObject(),
+        ...board,
         id: ObjectIdScalar.parseValue(board.id),
       }));
     }
