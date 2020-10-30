@@ -22,7 +22,7 @@ class BoardService {
   async list(data: FindBoardInput): Promise<IBoard[]> {
     const find: any = {};
     if (data.title) find.title = data.title;
-    if (data.user) find.user = data.user;
+    if (data.user) find.user = <Object>data.user;
     return BoardCollection.find(find).populate('user')
       .then((boards: IBoard[]) => boards.map((board: any) => ({
         ...board.toObject(),

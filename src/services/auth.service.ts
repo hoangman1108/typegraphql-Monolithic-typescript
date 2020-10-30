@@ -56,7 +56,7 @@ class AuthService {
 
     const profile: User = {
       ...result.user.toObject(),
-      id: ObjectIdScalar.parseValue(result.user.toObject().id),
+      id: ObjectIdScalar.parseValue(result.user.id),
     };
     return {
       token,

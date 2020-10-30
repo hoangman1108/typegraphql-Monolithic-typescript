@@ -3,6 +3,7 @@ import AuthHandler from './auth.service';
 import EventHandler from './event.service';
 import FoodHandler from './food.service';
 import BoardHandler from './board.service';
+import TaskHandler from './task.service';
 
 export default {
   services: {
@@ -11,5 +12,6 @@ export default {
     eventService: EventHandler,
     foodService: FoodHandler,
     boardService: BoardHandler,
+    taskService: TaskHandler,
   },
 };

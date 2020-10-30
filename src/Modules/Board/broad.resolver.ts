@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import { CreateQuery, Schema } from 'mongoose';
 import { Logger } from 'pino';
 import {

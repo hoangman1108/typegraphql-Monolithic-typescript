@@ -2,8 +2,11 @@ import { Document, model, Schema } from 'mongoose';
 
 export type ITask = Document & {
   name: string;
-  board: Schema.Types.ObjectId;
   status: string;
+  like: number;
+  board: Schema.Types.ObjectId;
+  createdBy: Schema.Types.ObjectId;
+  updatedBy: Schema.Types.ObjectId;
 };
 
 const taskSchema = new Schema({
@@ -11,12 +14,24 @@ const taskSchema = new Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+  },
+  like: {
+    type: String,
+    required: true,
+  },
   board: {
     type: Schema.Types.ObjectId,
     required: true,
   },
-  status: {
-    type: String,
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  updatedBy: {
+    type: Schema.Types.ObjectId,
     required: true,
   },
 }, { timestamps: true });
