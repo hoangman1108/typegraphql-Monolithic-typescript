@@ -4,6 +4,7 @@ export type ITask = Document & {
   name: string;
   status: string;
   like: number;
+  history: Array<string>;
   board: Schema.Types.ObjectId;
   createdBy: Schema.Types.ObjectId;
   updatedBy: Schema.Types.ObjectId;
@@ -24,6 +25,10 @@ const taskSchema = new Schema({
   },
   board: {
     type: Schema.Types.ObjectId,
+    required: true,
+  },
+  history: {
+    type: [String],
     required: true,
   },
   createdBy: {

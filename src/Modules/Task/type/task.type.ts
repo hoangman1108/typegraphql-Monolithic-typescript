@@ -21,6 +21,9 @@ export class Task {
   @Field(() => ObjectIdScalar)
   board: ObjectId;
 
+  @Field(() => [String], { nullable: true })
+  history: string[];
+
   @Field(() => ObjectIdScalar)
   createdBy: ObjectId;
 

@@ -6,8 +6,12 @@ import { ITask } from '../../models/task.model';
 import { IUser } from '../../models/user.model';
 import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
 import TaskService from '../../services/task.service';
-import { DeleteTaskInput, FindTaskInput, TaskInput } from './type/task.input';
-import { TaskPayload, TaskPayloads, DeleteTaskPayload } from './type/task.type';
+import {
+  DeleteTaskInput, FindTaskInput, TaskInput, UpdateTaskInput,
+} from './type/task.input';
+import {
+  TaskPayload, TaskPayloads, DeleteTaskPayload,
+} from './type/task.type';
 
 @Resolver()
 export class TaskResolver {
@@ -63,6 +67,37 @@ export class TaskResolver {
     }
     return {
       tasks: results,
+      errors: null,
+    };
+  }
+
+  @Mutation(() => TaskPayload)
+  @Extensions({
+    authenticate: true,
+  })
+  async updateTask(@Arg('data') data: UpdateTaskInput,
+    @Ctx() {
+      taskService, logger, user,
+    }: {
+      taskService: TaskService;
+      logger: Logger;
+      user: IUser;
+    }): Promise<TaskPayload> {
+    data.updatedBy = user.id;
+    const updated: ITask | null = await taskService.update(data);
+    logger.info('TaskMutation#update.check %o', updated);
+    let result: any = null;
+    if (updated) {
+      result = {
+        ...updated.toObject(),
+        id: ObjectIdScalar.parseValue(updated.id),
+        createdBy: ObjectIdScalar.parseValue(updated.createdBy),
+        updatedBy: ObjectIdScalar.parseValue(updated.updatedBy),
+        board: ObjectIdScalar.parseValue(updated.board),
+      };
+    }
+    return {
+      task: result,
       errors: null,
     };
   }

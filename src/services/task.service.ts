@@ -1,9 +1,11 @@
 import { BoardCollection } from '../models/board.model';
 import { ITask, TaskCollection } from '../models/task.model';
-import { DeleteTaskInput, FindTaskInput, TaskInput } from '../Modules/Task/type/task.input';
+import {
+  DeleteTaskInput, FindTaskInput, UpdateTaskInput,
+} from '../Modules/Task/type/task.input';
 
 class TaskService {
-  async create(input: TaskInput): Promise<ITask> {
+  async create(input: any): Promise<ITask> {
     const board = await BoardCollection.findById(input.board);
     if (!board) {
       const error = new Error('board is not exist to create task');
@@ -18,6 +20,7 @@ class TaskService {
         const error = new Error('Task is exists');
         throw error;
       }
+      input.history = [input.status];
 
       const create: ITask = await TaskCollection.create(input);
       return create;
@@ -29,9 +32,34 @@ class TaskService {
 
     if (input.board) find.board = input.board;
     if (input.createdBy) find.createdBy = input.createdBy;
+    if (input.status) find.status = input.status;
 
     return TaskCollection.find(find)
       .then((tasks: ITask[]) => tasks);
+  }
+
+  async update(input: UpdateTaskInput): Promise<ITask | null> {
+    const task: ITask | null = await TaskCollection.findOne(input.id);
+    if (!task) {
+      const error = new Error('Task not found');
+      throw error;
+    }
+    let history: Array<string> = [];
+    if (input.status) {
+      history = [...task.history];
+      history.push(task.status);
+      input.history = history;
+    }
+    const entity: any = {
+      ...input,
+    };
+    delete entity.id;
+
+    const condition = {
+      _id: input.id,
+    };
+    const updated = await TaskCollection.findOneAndUpdate(condition, entity, { new: true });
+    return updated;
   }
 
   async delete(id: DeleteTaskInput): Promise<string> {
