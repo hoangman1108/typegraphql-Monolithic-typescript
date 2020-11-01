@@ -5,6 +5,7 @@ export type IBoard = Document & {
   user: Schema.Types.ObjectId;
   title: string;
   date: Date;
+  joined?: Array<Schema.Types.ObjectId>;
 };
 
 const boardSchema = new Schema(
@@ -21,6 +22,10 @@ const boardSchema = new Schema(
     date: {
       type: Date,
       required: true,
+    },
+    joined: {
+      type: [Schema.Types.ObjectId],
+      required: false,
     },
   },
   {

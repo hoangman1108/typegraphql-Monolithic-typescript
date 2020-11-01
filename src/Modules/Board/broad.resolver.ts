@@ -7,10 +7,12 @@ import { IBoard } from '../../models/board.model';
 import { IUser } from '../../models/user.model';
 import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
 import BoardService from '../../services/board.service';
-import { BoardInput, FindBoardInput, IdBoardInput } from './type/board.input';
+import {
+  BoardInput, FindBoardInput, IdBoardInput, PublishBoardInput,
+} from './type/board.input';
 
 import {
-  BoardPayload, BoardPayloads, DeleteBoardPayload,
+  BoardPayload, BoardPayloads, DeleteBoardPayload, JoinedPayload,
 } from './type/board.type';
 
 @Resolver()
@@ -85,6 +87,27 @@ export class BoardResolver {
     logger.info('BoardMutation#delete.check %o', deleted);
     return {
       board: deleted,
+      errors: null,
+    };
+  }
+
+  @Mutation(() => JoinedPayload)
+  @Extensions({
+    authenticate: true,
+  })
+  async joinedBoard(@Arg('data') data: PublishBoardInput,
+    @Ctx() {
+      boardService, logger, user,
+    }: {
+      boardService: BoardService;
+      logger: Logger;
+      user: IUser;
+    }): Promise<JoinedPayload> {
+    data.joiner = user.id;
+    const board = await boardService.update(data);
+    logger.info('BoardMutation#update.check %o', board);
+    return {
+      board: 'OK',
       errors: null,
     };
   }

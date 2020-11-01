@@ -20,7 +20,6 @@ class TaskService {
         const error = new Error('Task is exists');
         throw error;
       }
-      input.history = [input.status];
 
       const create: ITask = await TaskCollection.create(input);
       return create;

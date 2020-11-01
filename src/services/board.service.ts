@@ -1,6 +1,7 @@
 import { CreateQuery } from 'mongoose';
 import { BoardCollection, IBoard } from '../models/board.model';
-import { FindBoardInput, IdBoardInput } from '../Modules/Board/type/board.input';
+import { TaskCollection } from '../models/task.model';
+import { FindBoardInput, IdBoardInput, PublishBoardInput } from '../Modules/Board/type/board.input';
 
 class BoardService {
   async create(input: CreateQuery<IBoard>): Promise<IBoard> {
@@ -31,7 +32,44 @@ class BoardService {
       })));
   }
 
+  async update(data: PublishBoardInput): Promise<IBoard | null> {
+    return BoardCollection.findOne({
+      _id: data.board,
+      user: <Object>data.user,
+    }).then(async (find: IBoard | null) => {
+      if (!find) {
+        const error = new Error('Link not found');
+        throw error;
+      }
+      const check: any = {
+        joined: {
+          $in: [data.joiner],
+        },
+        _id: data.board,
+      };
+
+      await BoardCollection.find(check).then((boards: IBoard[]) => {
+        if (boards.length > 0) {
+          const error = new Error('User has joined');
+          throw error;
+        }
+      });
+
+      let joined: any = [];
+      if (find.joined) {
+        joined = [...find.joined];
+      }
+      joined.push(data.joiner);
+      return BoardCollection.update({
+        _id: find.id,
+      }, {
+        joined,
+      });
+    });
+  }
+
   async deleteBoard(id: IdBoardInput): Promise<string> {
+    await TaskCollection.deleteMany({ board: <Object>id.id });
     return BoardCollection.deleteOne({ _id: id.id }).then((value) => {
       if (value.n && value?.n > 0) return 'DELETE_SUCCESS';
       return 'DELETE_FAIL';

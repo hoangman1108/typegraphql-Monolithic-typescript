@@ -12,6 +12,9 @@ export class Board {
   @Field(() => String)
   user: string;
 
+  @Field(() => [ObjectIdScalar] || null)
+  joined: ObjectId[] | null;
+
   @Field(() => String)
   title: string;
 
@@ -40,6 +43,15 @@ export class BoardPayloads {
 @ObjectType()
 export class DeleteBoardPayload {
   @Field()
+  board: string;
+
+  @Field(() => [Error], { nullable: true })
+  errors: Error[] | null;
+}
+
+@ObjectType()
+export class JoinedPayload {
+  @Field(() => String, { nullable: true })
   board: string;
 
   @Field(() => [Error], { nullable: true })

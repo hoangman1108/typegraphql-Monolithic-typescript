@@ -23,3 +23,15 @@ export class IdBoardInput {
   @Field(() => ObjectIdScalar)
   id: ObjectId;
 }
+
+@InputType()
+export class PublishBoardInput {
+  @Field(() => ObjectIdScalar)
+  user: ObjectId;
+
+  @Field(() => ObjectIdScalar)
+  board: ObjectId;
+
+  @Field(() => ObjectIdScalar, { nullable: true })
+  joiner: ObjectId | null;
+}
