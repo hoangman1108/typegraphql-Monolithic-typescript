@@ -23,6 +23,7 @@ export class Playground {
               name: module,
               endpoint: endpoint ?? '/graphql',
               query: query.default,
+              headers: { authorization: '' },
             };
             /* eslint no-param-reassign: [0] */
             queryContents = [...queryContents, tab];
@@ -43,15 +44,15 @@ export class Playground {
         settings: {
           'request.credentials': 'include',
           'general.betaUpdates': true,
-          'editor.cursorShape': 'block',
+          'editor.cursorShape': 'line', // line
           'editor.theme': 'dark',
           'editor.reuseHeaders': true,
           'tracing.hideTracingResponse': true,
           'tracing.tracingSupported': true,
-          'editor.fontSize': 12,
+          'editor.fontSize': 13,
           'editor.fontFamily': '\'Roboto\', \'Consolas\', \'Inconsolata\', \'Droid Sans Mono\', \'Monaco\', monospace',
           'request.globalHeaders': {},
-          'schema.polling.enable': false,
+          'schema.polling.enable': true,
           'schema.polling.endpointFilter': '/graphql',
           'schema.polling.interval': 1,
         },
