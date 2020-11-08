@@ -38,30 +38,45 @@ class AuthService {
             { user: findUser.id },
             authToken
           );
+        } else {
+          await AuthTokenCollection.create({
+            user: findUser.id,
+            ...authToken,
+          });
         }
-        await AuthTokenCollection.create({
-          user: findUser.id,
-          ...authToken,
-        });
       }
     );
 
-    const result: any = await AuthTokenCollection.findOne({ user: findUser.id }).populate('user');
+    return AuthTokenCollection.findOne({ user: findUser.id })
+      .then(async (existingUser: IAuthToken | null) => {
+        if (existingUser) {
+          await AuthTokenCollection.findOneAndUpdate(
+            { user: findUser.id },
+            authToken
+          );
+        } else {
+          await AuthTokenCollection.create({
+            user: findUser.id,
+            ...authToken,
+          });
+        }
 
-    const token: AuthToken = {
-      accessToken: result.accessToken,
-      refreshToken: result.refreshToken,
-      kind: result.kind,
-    };
+        const result: any = await AuthTokenCollection.findOne({ user: findUser.id }).populate('user');
+        const token: AuthToken = {
+          accessToken: result.accessToken,
+          refreshToken: result.refreshToken,
+          kind: result.kind,
+        };
 
-    const profile: User = {
-      ...result.user.toObject(),
-      id: ObjectIdScalar.parseValue(result.user.id),
-    };
-    return {
-      token,
-      profile,
-    };
+        const profile: User = {
+          ...result.user.toObject(),
+          id: ObjectIdScalar.parseValue(result.user.id),
+        };
+        return {
+          token,
+          profile,
+        };
+      });
   }
 
   async getRefreshToken(req: Request): Promise<string> {
@@ -79,7 +94,7 @@ class AuthService {
     }).then(async (auth: IAuthToken | null) => {
       if (auth) {
         const verifyToken: any = await authUtils.verifyToken(auth.refreshToken);
-        const user:IUser| null = await UserCollection.findById(verifyToken.sub);
+        const user: IUser | null = await UserCollection.findById(verifyToken.sub);
         if (user) {
           const accessToken: string = await authUtils.generateAccessToken(user);
           return accessToken;
