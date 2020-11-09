@@ -16,6 +16,7 @@ import { Context } from './Context';
 import { AuthenticationMiddleware } from '../MiddleWares/authentication.middleware';
 import { ValidationMiddleware } from '../MiddleWares/validate.middleware';
 import { ErrorMiddleware } from '../MiddleWares/error.middleware';
+import RabbitMQ from './RabbitMQ';
 
 import ServiceRegistry from './registry';
 import logger from './Log';
@@ -88,6 +89,7 @@ class Server {
 
   async Start() {
     await this.graphQl();
+    await RabbitMQ.Setup();
     new Playground().Init(this.App);
     Jwt.init(passport, this.serviceRegistry);
     this.App.use(passport.initialize());
