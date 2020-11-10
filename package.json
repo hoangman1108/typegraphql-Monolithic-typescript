@@ -66,7 +66,7 @@
         "yup": "^0.29.3"
     },
     "devDependencies": {
-        "nodemon": "^2.0.4",
+        "nodemon": "^2.0.6",
         "tslint": "^6.1.3"
     }
 }

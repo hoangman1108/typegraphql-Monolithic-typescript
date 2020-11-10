@@ -14,6 +14,9 @@ export class RabbitPayload {
 @ObjectType()
 export class Rabbit {
   @Field()
+  stt: number;
+
+  @Field()
   title: string;
 
   @Field()

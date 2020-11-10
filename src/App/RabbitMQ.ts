@@ -7,7 +7,7 @@ class RabbitMQ {
     logger.info('Setting up RabbitMQ Exchanges/Queues...');
     // connect to RabbitMQ Instance
     // rabbitConfig.url
-    const connection = await amqp.connect('amqps://tlaqebwd:owTGsyhv19fThlOKPvrqbnWyayoi4M2x@jaguar.rmq.cloudamqp.com/tlaqebwd');
+    const connection = await amqp.connect(rabbitConfig.url);
     Object.values(rabbitConfig.channel).forEach(async (channel: any) => {
       const channelMQ = await connection.createChannel();
       await channelMQ.assertExchange(channel.channel, 'direct', { durable: true });
