@@ -1,6 +1,8 @@
 /* eslint-disable max-classes-per-file */
+import { ObjectId } from 'mongodb';
 import { Field, ObjectType } from 'type-graphql';
 import { Error } from '../../../Scalars/Error.type';
+import { ObjectIdScalar } from '../../../Scalars/ObjectIdScalars';
 
 @ObjectType()
 export class RabbitPayload {
@@ -13,8 +15,8 @@ export class RabbitPayload {
 
 @ObjectType()
 export class Rabbit {
-  @Field()
-  stt: number;
+  @Field(() => ObjectIdScalar)
+  id: ObjectId;
 
   @Field()
   title: string;

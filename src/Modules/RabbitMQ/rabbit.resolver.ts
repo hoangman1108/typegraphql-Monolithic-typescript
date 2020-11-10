@@ -1,6 +1,7 @@
 import * as yup from 'yup';
+import { Logger } from 'pino';
 import {
-  Arg, Extensions, Mutation, Query, Resolver,
+  Arg, Ctx, Extensions, Mutation, Query, Resolver,
 } from 'type-graphql';
 import { rabbitConfig } from '../../App/Config';
 import rabbitMQ from '../../App/RabbitMQ';
@@ -9,17 +10,16 @@ import {
   RabbitPayload, RabbitPayloads,
 } from './type/rabbit.type';
 import { IRabbit, RabbitCollection } from '../../models/rabbit.model';
+import { ObjectIdScalar } from '../../Scalars/ObjectIdScalars';
 
-let lastRequestId = 1;
-
+let requestId = 1;
 @Resolver()
 export class RabbitResolver {
   static async consume(data: {
     title: string;
     description: string;
   }) {
-    await RabbitCollection.create({ ...data, stt: lastRequestId });
-    lastRequestId += 1;
+    await RabbitCollection.create(data);
   }
 
   @Mutation(() => RabbitPayload)
@@ -40,25 +40,33 @@ export class RabbitResolver {
       }),
     }),
   })
-  async pushMessage(@Arg('data') data: RabbitInput): Promise<RabbitPayload> {
-    const requestId = lastRequestId;
-    lastRequestId += 1;
+  async pushMessage(@Arg('data') data: RabbitInput,
+    @Ctx() { logger }: { logger: Logger }): Promise<RabbitPayload> {
     const channel: any = rabbitConfig.channel.find((x) => x.channel === 'requestUser');
-    rabbitMQ.publishToChannel({
-      routingKey: channel.request,
-      exchangeName: channel.channel,
-      data: { requestId, requestData: data },
-    });
-    return {
-      message: 'push message OK',
-      errors: null,
-    };
+    try {
+      rabbitMQ.publishToChannel({
+        routingKey: channel.request,
+        exchangeName: channel.channel,
+        data: { requestId, requestData: data },
+      });
+      requestId += 1;
+      logger.info('Rabbit#push.check1 %o', data);
+      return {
+        message: `push message: ${data.title} success`,
+        errors: null,
+      };
+    } catch {
+      throw new Error('Cannot push');
+    }
   }
 
   @Query(() => RabbitPayloads)
   async listMessage(): Promise<RabbitPayloads> {
     return RabbitCollection.find().then((results: IRabbit[]) => ({
-      rabbits: results,
+      rabbits: [...results.map((value: IRabbit) => ({
+        ...value.toObject(),
+        id: ObjectIdScalar.parseValue(value.id),
+      }))],
       errors: null,
     }));
   }
