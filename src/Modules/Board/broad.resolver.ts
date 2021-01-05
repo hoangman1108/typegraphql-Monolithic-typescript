@@ -36,11 +36,12 @@ export class BoardResolver {
     };
     const create: IBoard = await boardService.create(input);
     logger.info('BoardMutation#create.check %o', create);
+    const board: any  = {
+      ...create.toObject(),
+      id: ObjectIdScalar.parseValue(create.id),
+    };
     return {
-      board: {
-        ...create.toObject(),
-        id: ObjectIdScalar.parseValue(create.id),
-      },
+      board,
       errors: null,
     };
   }

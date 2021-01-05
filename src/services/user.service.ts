@@ -28,7 +28,7 @@ class UserService {
   }
 
   async delete(id: UserIdInput): Promise<string> {
-    return UserCollection.deleteOne({ _id: id.id }).catch((error) => {
+    return UserCollection.deleteOne({ _id: id.id }).catch((error: any) => {
       if (error) return 'DELETE_ERROR';
       return 'DELETED_SUCCESS';
     });

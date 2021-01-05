@@ -70,7 +70,7 @@ class BoardService {
 
   async deleteBoard(id: IdBoardInput): Promise<string> {
     await TaskCollection.deleteMany({ board: <Object>id.id });
-    return BoardCollection.deleteOne({ _id: id.id }).then((value) => {
+    return BoardCollection.deleteOne({ _id: id.id }).then((value: any) => {
       if (value.n && value?.n > 0) return 'DELETE_SUCCESS';
       return 'DELETE_FAIL';
     });

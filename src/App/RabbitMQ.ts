@@ -77,7 +77,7 @@ class RabbitMQ {
   ) {
     const connection = await amqp.connect(rabbitConfig.url);
     const channel = await connection.createConfirmChannel();
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       channel.publish(
         exchangeName,
         routingKey,

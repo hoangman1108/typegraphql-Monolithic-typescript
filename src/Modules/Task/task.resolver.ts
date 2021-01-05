@@ -31,13 +31,13 @@ export class TaskResolver {
     data.updatedBy = user.id;
     const created: ITask = await taskService.create(data);
     logger.info('TaskMutation#create.check %o', created);
-
+    const task: any = {
+      ...created.toObject(),
+      id: ObjectIdScalar.parseValue(created.id),
+      board: ObjectIdScalar.parseValue(created.board),
+    };
     return {
-      task: {
-        ...created.toObject(),
-        id: ObjectIdScalar.parseValue(created.id),
-        board: ObjectIdScalar.parseValue(created.board),
-      },
+      task,
       errors: null,
     };
   }

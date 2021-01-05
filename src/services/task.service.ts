@@ -62,7 +62,7 @@ class TaskService {
   }
 
   async delete(id: DeleteTaskInput): Promise<string> {
-    return TaskCollection.deleteOne({ _id: id.id }).then((value) => {
+    return TaskCollection.deleteOne({ _id: id.id }).then((value: any) => {
       if (value.n && value?.n > 0) return 'DELETE_SUCCESS';
       return 'DELETE_FAIL';
     });
