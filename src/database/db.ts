@@ -8,8 +8,8 @@ class Database {
   public uri: string;
 
   constructor() {
-    this.uri = `mongodb+srv://${utils.mongoServer.user}:${utils.mongoServer.pass}@${utils.mongoServer.host}/${utils.mongoServer.db}?${utils.mongoServer.auth}`;
-    // this.uri = `mongodb://${utils.mongo.user}:${utils.mongo.pass}@${utils.mongo.host}:${utils.mongo.port}/${utils.mongo.db}`;
+    // this.uri = `mongodb+srv://${utils.mongoServer.user}:${utils.mongoServer.pass}@${utils.mongoServer.host}/${utils.mongoServer.db}?${utils.mongoServer.auth}`;
+    this.uri = `mongodb://${utils.mongo.user}:${utils.mongo.pass}@${utils.mongo.host}:${utils.mongo.port}/${utils.mongo.db}`;
     this.onConnection();
   }
 

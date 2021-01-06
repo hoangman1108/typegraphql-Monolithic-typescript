@@ -7,7 +7,7 @@
         "build": "tsc",
         "test": "mocha",
         "lint": "eslint --ext .jsx,.ts,.tsx ./src",
-        "start": "npm run build && node build/App/Server.js",
+        "start": "node build/App/Server.js",
         "dev": "nodemon"
     },
     "keywords": [],

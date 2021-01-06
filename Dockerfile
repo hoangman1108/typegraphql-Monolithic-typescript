@@ -1,17 +1,13 @@
-FROM centos:8
+FROM node:12-alpine AS alpine
 
 # Create app directory
-WORKDIR /usr/src/gateway-svc
+WORKDIR /app
 
-ADD . ./
-RUN dnf install -y gcc-c++ make
-RUN curl -sL https://rpm.nodesource.com/setup_14.x | bash -
-RUN dnf install -y nodejs
+COPY package*.json ./
+RUN npm install 
+COPY . .
 
-RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-RUN dnf install -y yarn
+RUN npm run build
 
-RUN yarn install
-
-EXPOSE 4002
-CMD [ "yarn", "dev" ]
+EXPOSE 4000
+CMD [ "npm", "run", "start" ]
